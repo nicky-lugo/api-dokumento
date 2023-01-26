@@ -22,51 +22,61 @@ class User extends BaseController
 		return $this->respond($body, $code);
 	}
 	public function login(){
-		$oauth = new Oauth();
-		$request = new Request();
-		$respond = $oauth->server->handleTokenRequest($request->createFromGlobals());
-		$code = $respond->getStatusCode();		
-		$body = $respond->getResponseBody();
-		$IsSuccess = json_decode($body);
-		if(isset($IsSuccess->error))
-		{			
-			return $this->respond(json_decode($body), $code);
+		try{
+			// echo "<pre>";
+			// print_r($this->password_hash('default101', PASSWORD_DEFAULT));
+			// exit;
+			$oauth = new Oauth();
+			$request = new Request();
+			$respond = $oauth->server->handleTokenRequest($request->createFromGlobals());
+
+			$code = $respond->getStatusCode();		
+			$body = $respond->getResponseBody();
+			$IsSuccess = json_decode($body);
+			if(isset($IsSuccess->error))
+			{			
+				return $this->respond(json_decode($body), $code);
+			}
+			
+			
+			$UserModel = new UserModel();
+			$data = $UserModel->getUserByEmail($_POST['username']);
+			$UserloginModel = new UserloginModel();
+			$UserloginData = $UserloginModel->find($data[0]['ExternalId']);
+			$post_data = json_decode($_POST['post_cookie']);
+			$data_fields = ['IsSuccess'	=> 1,
+							  'IsMobile'	=> $this->request->getVar('device') == 0 ? 0:1,
+							  'IsWebsite'	=> $this->request->getVar('device') == 1 ? 0:1,
+							  'CreatedByUser'	=> $data[0]['UserId'],
+							  'ChangedDuringVersion'	=> $this->request->getVar('version'),					  
+							  'UserId'		=> $data[0]['UserId'],
+							  'ExternalId'	=> $data[0]['ExternalId'],
+							  'EmailAddress'=> $data[0]['UserName'],
+							  'IpAddress'	=> $post_data->IP,
+							  'IpAddressNumber'=> $post_data->IP,
+							  'SessionId'	=> $post_data->Agent,
+							  'UserAgent'	=> $post_data->Agent,
+							  'LocalLanguage'=> $post_data->Language,
+							  'LocalTime'	=> $post_data->Timezone,
+							  'DisplayName'	=> $data[0]['DisplayName'],
+							  'MobilePhoneNumber'=> $data[0]['MobilePhoneNumber'],
+							  'PhotoUrl'	=> $data[0]['PhotoUrl'],
+							  'ProviderId'	=> $data[0]['ProviderId'],
+							  'Cookies'		=> $_POST['post_cookie']
+							];
+			$UserGroupModel = new UserGroupModel();
+			$UserGroup = $UserGroupModel->getUserByUserID($data[0]['UserId']);
+			
+			$permission = ['roles' => $UserGroup->permission];
+
+			$body = array_merge((array)json_decode($body),(array)$permission);
+			
+			// $post_id = $UserloginModel->createData($data_fields);
+			$post_id = $UserloginModel->insert($data_fields);
+
+		}catch (\Throwable  $e) {
+			echo $e;
 		}
-		
-		
-		$UserModel = new UserModel();
-		$data = $UserModel->getUserByEmail($_POST['username']);
-		$UserloginModel = new UserloginModel();
-		$UserloginData = $UserloginModel->find($data[0]['ExternalId']);
-		$post_data = json_decode($_POST['post_cookie']);
-		$data_fields = ['IsSuccess'	=> 1,
-						  'IsMobile'	=> $this->request->getVar('device') == 0 ? 0:1,
-						  'IsWebsite'	=> $this->request->getVar('device') == 1 ? 0:1,
-						  'CreatedByUser'	=> $data[0]['UserId'],
-						  'ChangedDuringVersion'	=> $this->request->getVar('version'),					  
-						  'UserId'		=> $data[0]['UserId'],
-						  'ExternalId'	=> $data[0]['ExternalId'],
-						  'EmailAddress'=> $data[0]['UserName'],
-						  'IpAddress'	=> $post_data->IP,
-						  'IpAddressNumber'=> $post_data->IP,
-						  'SessionId'	=> $post_data->Agent,
-						  'UserAgent'	=> $post_data->Agent,
-						  'LocalLanguage'=> $post_data->Language,
-						  'LocalTime'	=> $post_data->Timezone,
-						  'DisplayName'	=> $data[0]['DisplayName'],
-						  'MobilePhoneNumber'=> $data[0]['MobilePhoneNumber'],
-						  'PhotoUrl'	=> $data[0]['PhotoUrl'],
-						  'ProviderId'	=> $data[0]['ProviderId'],
-						  'Cookies'		=> $_POST['post_cookie']
-						];
-		$UserGroupModel = new UserGroupModel();
-		$UserGroup = $UserGroupModel->getUserByUserID($data[0]['UserId']);
-		$permission = ['roles' => $UserGroup->Permission];
-		
-		$body = array_merge((array)json_decode($body),(array)$permission);
-		
-		// $post_id = $UserloginModel->createData($data_fields);
-		$post_id = $UserloginModel->insert($data_fields);
 		// print_r(unserialize($body['role']));
 		// exit;
 		return $this->respond($body, $code);
@@ -103,8 +113,8 @@ class User extends BaseController
 			$model = new UserModel();
 			$data = [
 			'UserName' 			=> $this->request->getVar('UserName'),
-			'MobilePhoneNumber' => $this->request->getVar('MobilePhoneNumber'),
-			'EmailAddress' 		=> $this->request->getVar('EmailAddress'),
+			'phone' => $this->request->getVar('MobilePhoneNumber'),
+			'email' 		=> $this->request->getVar('EmailAddress'),
 			'IsEmailVerified' 	=> $this->request->getVar('EmailAddress'),
 			
 			'AppStoreUserId' 	=> $this->request->getVar('AppStoreUserId'),

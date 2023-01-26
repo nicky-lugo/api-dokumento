@@ -9,11 +9,12 @@ class UserModel extends Model{
                               'UserName',
                               'Password',
                               'AppStoreUserId',
-                              'MobilePhoneNumber',
-                              'EmailAddress',
+                              'phone',
+                              'email',
                               'DisplayName',
                               'ProviderId',
                               'IsEmailVerified',
+                              'account_id'
                                ];
 
   protected $beforeInsert = ['beforeInsert'];
@@ -38,8 +39,8 @@ class UserModel extends Model{
   }
   public function getUserByEmail($email){	
 	$user = $this->where(array("UserName"=>$email))
-				->orWhere(array("EmailAddress"=>$email))
-				->orWhere(array("MobilePhoneNumber"=>$email))
+				->orWhere(array("email"=>$email))
+				->orWhere(array("phone"=>$email))
 				->findAll();
 	  return $user;
   }
@@ -115,16 +116,18 @@ class UserModel extends Model{
 					UserName, 
 					DisplayName, 
 					AppStoreUserId, 
-					MobilePhoneNumber,
+					phone,
 					DisplayName,
-					PhotoUrl,
+					image,
 					SignatureUrl,
 					ProviderId,
 					Password,
-					TwoFA');
+					TwoFA,
+          account_id,
+          is_staff');
 	$this->where('UserName',$user_name ); 
-	$this->orWhere(array("EmailAddress"=>$user_name));	
-	$this->orWhere(array("MobilePhoneNumber"=>$user_name));	
+	$this->orWhere(array("email"=>$user_name));	
+	$this->orWhere(array("phone"=>$user_name));	
 	$result = $this->first();
 	
 	// echo $this->db->getLastQuery();    

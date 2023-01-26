@@ -4,9 +4,9 @@ use CodeIgniter\Model;
 
 class UserGroupModel extends Model{
   protected $table = 'user_group';
-  protected $primaryKey = 'UserGroupId';
-  protected $allowedFields = ['UserId',
-                              'GroupId'];
+  protected $primaryKey = 'id';
+  protected $allowedFields = ['user_id',
+                              'group_id'];
 
  
   public function getUserByUserID($userId){	

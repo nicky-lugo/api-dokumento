@@ -43,7 +43,13 @@ class User extends BaseController
 			$data = $UserModel->getUserByEmail($_POST['username']);
 			$UserloginModel = new UserloginModel();
 			$UserloginData = $UserloginModel->find($data[0]['ExternalId']);
-			$post_data = json_decode($_POST['post_cookie']);
+			if(isset($_POST['post_cookie'])){
+				$post_data = json_decode($_POST['post_cookie']);	
+			}
+			else{
+				$post_data = array();
+			}
+			// $post_data = json_decode($_POST['post_cookie']);
 			$data_fields = ['IsSuccess'	=> 1,
 							  'IsMobile'	=> $this->request->getVar('device') == 0 ? 0:1,
 							  'IsWebsite'	=> $this->request->getVar('device') == 1 ? 0:1,

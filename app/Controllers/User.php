@@ -6,6 +6,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\UserModel;
 use App\Models\UserloginModel;
 use App\Models\UserGroupModel;
+use App\Models\AccountModel;
 
 class User extends BaseController
 {
@@ -75,8 +76,13 @@ class User extends BaseController
 			
 			$permission = ['roles' => $UserGroup->permission];
 
-			$body = array_merge((array)json_decode($body),(array)$permission);
-			
+			$accountModel = new AccountModel();
+			$accountData = $accountModel->getData($data[0]['account_id']);
+
+			$accountStatus = ['account_status' => $accountData->status];
+
+			$body = array_merge((array)json_decode($body),(array)$permission, (array)$accountStatus);
+
 			// $post_id = $UserloginModel->createData($data_fields);
 			$post_id = $UserloginModel->insert($data_fields);
 

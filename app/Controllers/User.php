@@ -79,7 +79,7 @@ class User extends BaseController
 			$accountModel = new AccountModel();
 			$accountData = $accountModel->getData($data[0]['account_id']);
 
-			$accountStatus = ['account_status' => $accountData->status];
+			$accountStatus = ['account_status' => $accountData['status']];
 
 			$body = array_merge((array)json_decode($body),(array)$permission, (array)$accountStatus);
 

@@ -37,11 +37,17 @@ class UserModel extends Model{
 
     return $data;
   }
+  // public function getUserByEmail($email){	
+	// $user = $this->where(array("UserName"=>$email))
+				// ->orWhere(array("email"=>$email))
+				// ->orWhere(array("phone"=>$email))
+				// ->findAll();
+	  // return $user;
+  // }
   public function getUserByEmail($email){	
-	$user = $this->where(array("UserName"=>$email))
-				->orWhere(array("email"=>$email))
-				->orWhere(array("phone"=>$email))
-				->findAll();
+	$user = $this->where(array("is_deleted <> "=>1))
+				 ->where(array("UserName"=>$email))
+				->findAll();		
 	  return $user;
   }
 

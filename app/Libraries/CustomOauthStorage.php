@@ -449,7 +449,7 @@ class CustomOauthStorage implements
     {
         $db = db_connect();
         $builder = $db->table('users');
-        $where = ['UserName' => $email];
+        $where = ['UserName' => $email, 'is_deleted'=>0];
         $builder->where($where);
         $user = $builder->get()->getRowArray();
         if(!$user){

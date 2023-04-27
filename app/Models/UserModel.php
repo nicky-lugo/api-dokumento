@@ -132,10 +132,11 @@ class UserModel extends Model{
           account_id,
           is_staff');
 	$this->where('UserName',$user_name ); 
-	$this->orWhere(array("email"=>$user_name));	
-	$this->orWhere(array("phone"=>$user_name));	
-	$result = $this->first();
-	
+  $this->Where("is_deleted",0);
+	// $this->orWhere(array("email"=>$user_name));	
+	// $this->orWhere(array("phone"=>$user_name));	
+  $result = $this->first();
+
 	// echo $this->db->getLastQuery();    
     return $result;
     

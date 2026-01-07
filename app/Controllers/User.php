@@ -285,8 +285,6 @@ class User extends BaseController
 			
 		}
 	}
-<<<<<<< HEAD
-=======
 	public function new_account(){
 		helper('form');
 		$data = [];
@@ -344,7 +342,6 @@ class User extends BaseController
 		// }
 	}
 	
->>>>>>> 47bf9b6a37a55d55cf5d5cdc0f4d94f41137a115
 }
 
 

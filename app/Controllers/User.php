@@ -299,7 +299,7 @@ class User extends BaseController
 				'address' 	=> $this->request->getVar('address'),				
 				];
 				$AccountModel = new AccountModel();
-			$result = $UserModel->createData($data);
+			$result = $AccountModel->createData($data);
 			if($result != null){
 				$result['status'] = 'SUCCESS';
 				$result['msg'] = "Account successfully registered.";

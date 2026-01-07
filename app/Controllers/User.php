@@ -289,6 +289,7 @@ class User extends BaseController
 
 		if($this->request->getMethod() != 'post')
 			return $this->fail('Only post request is allowed');
+		
 		$AccountModel = new AccountModel();
 		// check cs_account if exist cs_id = external_id
 			$accountData = $AccountModel->getDataExternalID($this->request->getVar('external_id'));
@@ -315,6 +316,7 @@ class User extends BaseController
 				$result['status'] = 'SUCCESS';
 				$result['msg'] = "Account successfully registered.";
 				// return $this->respondCreated($result);
+				// $newID = $result[0]['id'];
 			}
 			else{
 				return $this->failResourceExists('Account already exist.');
@@ -327,7 +329,7 @@ class User extends BaseController
 		
 			$model = new UserModel();
 			$data = [
-			'UserName' 			=> $result[0]['id'],
+			'UserName' 			=> $this->request->getVar('external_id'),
 			'phone' 			=> '',
 			'email' 			=> $this->request->getVar('email_address'),
 			'IsEmailVerified' 	=> 0,			

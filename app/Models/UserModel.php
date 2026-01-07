@@ -8,12 +8,8 @@ class UserModel extends Model{
   protected $allowedFields = ['ExternalId',
                               'UserName',
                               'Password',
-                              'AppStoreUserId',
                               'phone',
                               'email',
-                              'DisplayName',
-                              'ProviderId',
-                              'IsEmailVerified',
                               'account_id'
                                ];
 
@@ -72,11 +68,11 @@ class UserModel extends Model{
   }
   
   public function existing(array $data){
-    $uid = $data['AppStoreUserId'];
-    $provider = $data['ProviderId'];
+    $uid = $data['ExternalId'];
+    
 
-    if($uid !=null && $provider != null){
-      $user = $this->where(array("AppStoreUserId"=>$uid, "ProviderId"=>$provider))
+    if($uid !=null){
+      $user = $this->where(array("ExternalId"=>$uid))
       ->findAll();
       //echo $this->db->getLastQuery(); 
     }

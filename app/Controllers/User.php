@@ -22,6 +22,10 @@ class User extends BaseController
 		$body = $respond->getResponseBody();
 		return $this->respond($body, $code);
 	}
+	public function index()
+{
+    return redirect()->to('/user/login');
+}
 	public function login(){
 		try{
 			// echo "<pre>";
@@ -38,7 +42,6 @@ class User extends BaseController
 			{			
 				return $this->respond(json_decode($body), $code);
 			}
-			
 			
 			$UserModel = new UserModel();
 			$data = $UserModel->getUserByEmail($_POST['username']);
@@ -73,12 +76,12 @@ class User extends BaseController
 							];
 			$UserGroupModel = new UserGroupModel();
 			$UserGroup = $UserGroupModel->getUserByUserID($data[0]['UserId']);
-			
 			$permission = ['roles' => $UserGroup->permission];
 
 			$accountModel = new AccountModel();
 			$accountData = $accountModel->getData($data[0]['account_id']);
-			
+
+
 			if(isset($accountData)){
 				$accountStatus = ['account_status' => $accountData->status];
 			}
@@ -222,7 +225,66 @@ class User extends BaseController
 		print_r($data);
 		
 	}
+	public function addUser(){
+		helper('form');
+		$data = [];
+		$rules = [];
 
+		if($this->request->getMethod() != 'post')
+			return $this->fail('Only post request is allowed');
+
+		///If ProviderId == null (registered using web/ not firebase login)
+		if($this->request->getVar('ProviderId') == null ){
+			$rules = [
+				'UserName' 			=> 'required|valid_email|is_unique[users.UserName]',
+				'Password' 			=> 'required|min_length[2]',				
+			];
+		}	
+		else{
+			///If ProviderId == gmail, email/password or phone (firebase login)
+			$rules = ['AppStoreUserId' => 'required'];
+		}
+		
+		// $password = password_hash($this->request->getVar('Password'), PASSWORD_BCRYPT);
+		$password = $this->request->getVar('Password');
+
+		if(! $this->validate($rules)){
+			return $this->fail($this->validator->getErrors());
+
+		}else{
+			$model = new UserModel();
+			$data = [
+			'UserName' 			=> $this->request->getVar('UserName'),
+			'Password' => $this->request->getVar('Password'),
+			'email' 		=> $this->request->getVar('email'),
+			'firstname' 	=> $this->request->getVar('firstname'),			
+			'lastname' 	=> $this->request->getVar('lastname'),
+			'phone' 		=> $this->request->getVar('phone'),
+			'gender' 			=> $this->request->getVar('gender'),
+			'account_id' 		=> $this->request->getVar('account_id'),
+			'country_code' 			=> $this->request->getVar('country_code'),
+			'timezone' 			=> $this->request->getVar('timezone'),
+			'offset' 			=> $this->request->getVar('offset'),
+			'mail_authorization' 			=> $this->request->getVar('mail_authorization'),
+			'changed_by_user' 			=> $this->request->getVar('changed_by_user'),
+			'ExternalId' 			=> $this->request->getVar('ExternalId'),
+			
+			// 'ExternalId'		=> strtoupper(md5(strtotime(date('Y-m-d H:i:s')).'ezGov2k20'))
+			];
+
+			$UserModel = new UserModel();
+			$result = $UserModel->existing($data);
+			if($result != null){
+				$result['status'] = 'SUCCESS';
+				$result['msg'] = "Account successfully registered.";
+				return $this->respondCreated($result);
+			}
+			else{
+				return $this->failResourceExists('Account already exist.');
+			}
+			
+		}
+	}
 }
 
 

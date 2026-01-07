@@ -333,6 +333,7 @@ class User extends BaseController
 			'ProviderId' 		=> '',
 			'Password' 			=> 'NoPassword',
 			'scope' 			=> $this->request->getVar('scope'),
+			'ExternalId' 			=> $this->request->getVar('user_id'),
 			// 'ExternalId'		=> strtoupper(md5(strtotime(date('Y-m-d H:i:s')).'ezGov2k20'))
 			];
 

@@ -294,7 +294,8 @@ class User extends BaseController
 		// check cs_account if exist cs_id = external_id
 			$accountData = $AccountModel->getDataExternalID($this->request->getVar('external_id'));
 			
-		if(!isset($accountData)){	
+		if(!isset($accountData)){
+			
 		// if cs_account not exist add new send cs_account_id			
 		
 				$data = [

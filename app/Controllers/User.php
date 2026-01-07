@@ -290,22 +290,34 @@ class User extends BaseController
 		if($this->request->getMethod() != 'post')
 			return $this->fail('Only post request is allowed');
 
-		///If ProviderId == null (registered using web/ not firebase login)
-		if($this->request->getVar('ProviderId') == null ){
-			$rules = [
-				'UserName' 			=> 'required|valid_email|is_unique[users.UserName]',
-				'Password' 			=> 'required|min_length[8]',
-				'Password_confirm' 	=> 'matches[Password]',
-			];
-		}	
-		else{
-			///If ProviderId == gmail, email/password or phone (firebase login)
-			$rules = ['AppStoreUserId' => 'required'];
-		}
+		// check cs_account if exist
+		// if cs_account not exist add new send cs_account_id			
+				$data = [
+				'name' 			=> $this->request->getVar('UserName'),
+				'owner_name' => $this->request->getVar('MobilePhoneNumber'),
+				'email_address' 		=> $this->request->getVar('EmailAddress'),
+				'address' 	=> $this->request->getVar('EmailAddress'),				
+				];
+				$AccountModel = new AccountModel();
+			$result = $UserModel->createData($data);
+			if($result != null){
+				$result['status'] = 'SUCCESS';
+				$result['msg'] = "Account successfully registered.";
+				return $this->respondCreated($result);
+			}
+			else{
+				return $this->failResourceExists('Account already exist.');
+			}
+		// else get cs_account id
+		
+		// check user_account if exist
+		// if user_account not exist add new send user_id			
+		// else get user_id
+		
 		
 		// $password = password_hash($this->request->getVar('Password'), PASSWORD_BCRYPT);
-		$password = $this->request->getVar('Password');
-		echo "Pass";
+		// $password = $this->request->getVar('Password');
+		// echo "Pass";
 		// if(! $this->validate($rules)){
 			// return $this->fail($this->validator->getErrors());
 

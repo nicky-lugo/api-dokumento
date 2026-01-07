@@ -317,7 +317,7 @@ class User extends BaseController
 		
 		// check user_account if exist
 		// if user_account not exist add new send user_id			
-		echo $result[0]->id."nicky";
+		print_r($result)."nicky";
 		exit;
 			$model = new UserModel();
 			$data = [

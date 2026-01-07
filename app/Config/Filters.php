@@ -40,6 +40,8 @@ class Filters extends BaseConfig
 		'oauthfilter' => ['before' => ['blog',
 										'blog/*',
 										'user/getUserDataByUserNamePass',
+										'user/getUserData',
+										'user',
 										'category',
 										'category/*',
 										'division',

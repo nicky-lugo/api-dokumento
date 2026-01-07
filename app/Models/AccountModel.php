@@ -13,6 +13,8 @@ class AccountModel extends Model
     'name',
     'owner_name',
 	'email_address',
+	'ticket_email_address',
+	'product',
 	'address',
 	'status',
     'created_date',
@@ -35,6 +37,14 @@ class AccountModel extends Model
    $query     =  $this->db->query('call Account_GetData("' . $accountId . '")');
    return $query->getRow();
  }
+ public function createData($data)
+  {
+	  $data = json_encode($data);
+	  $query =  $this->db->query("call Account_Create('{$data}',@LID)");
+	  $reasult =  $this->db->query('SELECT @LID as id');	  
+	  
+	  return $reasult->getResultArray();
+  }
 
  
 }

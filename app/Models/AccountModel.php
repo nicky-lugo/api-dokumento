@@ -39,6 +39,7 @@ class AccountModel extends Model
  }
  public function createData($data)
   {
+	  print_r($data);
 	  $data = json_encode($data);
 	  $query =  $this->db->query("call Account_Create('{$data}',@LID)");
 	  $reasult =  $this->db->query('SELECT @LID as id');	  

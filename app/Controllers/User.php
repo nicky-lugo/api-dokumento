@@ -296,7 +296,10 @@ class User extends BaseController
 				'name' 			=> $this->request->getVar('name'),
 				'owner_name' => $this->request->getVar('owner_name'),
 				'email_address' 		=> $this->request->getVar('email_address'),
+				'ticket_email_address' 		=> $this->request->getVar('ticket_email_address'),				
+				'product' 	=> $this->request->getVar('product'),												
 				'address' 	=> $this->request->getVar('address'),				
+				
 				];
 				$AccountModel = new AccountModel();
 			$result = $AccountModel->createData($data);

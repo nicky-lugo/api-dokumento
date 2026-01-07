@@ -20,7 +20,8 @@ class AccountModel extends Model
     'created_date',
     'is_deleted',
 	'changed_by_date',
-    'changed_by_user'
+    'changed_by_user',
+	'external_id'
   ];
     
   
@@ -33,6 +34,10 @@ class AccountModel extends Model
 //  }
 
 
+public function getDataExternalID($accountId){	
+   $query     =  $this->db->query('call Account_GetDataExternalID("' . $accountId . '")');
+   return $query->getRow();
+ }
  public function getData($accountId){	
    $query     =  $this->db->query('call Account_GetData("' . $accountId . '")');
    return $query->getRow();

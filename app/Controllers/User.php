@@ -289,9 +289,13 @@ class User extends BaseController
 
 		if($this->request->getMethod() != 'post')
 			return $this->fail('Only post request is allowed');
-
-		// check cs_account if exist
+		$AccountModel = new AccountModel();
+		// check cs_account if exist cs_id = external_id
+			$accountData = $AccountModel->Account_GetDataExternalID($this->request->getVar('external_id'));
+			
+		if(!isset($accountData)){	
 		// if cs_account not exist add new send cs_account_id			
+		
 				$data = [
 					'name' 			=> $this->request->getVar('name'),
 					'owner_name' => $this->request->getVar('owner_name'),
@@ -300,10 +304,12 @@ class User extends BaseController
 					'product' 	=> $this->request->getVar('product'),												
 					'address' 	=> $this->request->getVar('address'),				
 					'status' 	=> 1,				
-					'external_id' 	=> 1,				
-					'is_deleted' 	=> 0,																
+					'external_id' 	=> $this->request->getVar('external_id'),									
+					'is_deleted' 	=> 0,											
+					
+					
 				];
-				$AccountModel = new AccountModel();
+				
 			$result = $AccountModel->createData($data);
 			if($result != null){
 				$result['status'] = 'SUCCESS';
@@ -313,6 +319,7 @@ class User extends BaseController
 			else{
 				return $this->failResourceExists('Account already exist.');
 			}
+		}	
 		// else get cs_account id
 		
 		// check user_account if exist
@@ -331,6 +338,8 @@ class User extends BaseController
 			'Password' 			=> 'NoPassword',
 			'scope' 			=> $this->request->getVar('scope'),
 			'ExternalId' 			=> $this->request->getVar('user_id'),
+			'account_id' 			=> $this->request->getVar('external_id'),
+			
 			// 'ExternalId'		=> strtoupper(md5(strtotime(date('Y-m-d H:i:s')).'ezGov2k20'))
 			];
 

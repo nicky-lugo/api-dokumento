@@ -285,6 +285,66 @@ class User extends BaseController
 			
 		}
 	}
+<<<<<<< HEAD
+=======
+	public function new_account(){
+		helper('form');
+		$data = [];
+		$rules = [];
+
+		if($this->request->getMethod() != 'post')
+			return $this->fail('Only post request is allowed');
+
+		///If ProviderId == null (registered using web/ not firebase login)
+		if($this->request->getVar('ProviderId') == null ){
+			$rules = [
+				'UserName' 			=> 'required|valid_email|is_unique[users.UserName]',
+				'Password' 			=> 'required|min_length[8]',
+				'Password_confirm' 	=> 'matches[Password]',
+			];
+		}	
+		else{
+			///If ProviderId == gmail, email/password or phone (firebase login)
+			$rules = ['AppStoreUserId' => 'required'];
+		}
+		
+		// $password = password_hash($this->request->getVar('Password'), PASSWORD_BCRYPT);
+		$password = $this->request->getVar('Password');
+		echo "Pass";
+		// if(! $this->validate($rules)){
+			// return $this->fail($this->validator->getErrors());
+
+		// }else{
+			// $model = new UserModel();
+			// $data = [
+			// 'UserName' 			=> $this->request->getVar('UserName'),
+			// 'phone' => $this->request->getVar('MobilePhoneNumber'),
+			// 'email' 		=> $this->request->getVar('EmailAddress'),
+			// 'IsEmailVerified' 	=> $this->request->getVar('EmailAddress'),
+			
+			// 'AppStoreUserId' 	=> $this->request->getVar('AppStoreUserId'),
+			// 'DisplayName' 		=> $this->request->getVar('DisplayName'),
+			// 'PhotoUrl' 			=> $this->request->getVar('PhotoUrl'),
+			// 'ProviderId' 		=> $this->request->getVar('ProviderId'),
+			// 'Password' 			=> $password,
+			// 'scope' 			=> $this->request->getVar('scope'),
+			// ];
+
+			// $UserModel = new UserModel();
+			// $result = $UserModel->existing($data);
+			// if($result != null){
+				// $result['status'] = 'SUCCESS';
+				// $result['msg'] = "Account successfully registered.";
+				// return $this->respondCreated($result);
+			// }
+			// else{
+				// return $this->failResourceExists('Account already exist.');
+			// }
+			
+		// }
+	}
+	
+>>>>>>> 47bf9b6a37a55d55cf5d5cdc0f4d94f41137a115
 }
 
 

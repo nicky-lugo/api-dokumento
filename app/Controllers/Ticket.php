@@ -7,7 +7,11 @@ use App\Models\LogModel;
 
 class Ticket extends BaseController
 {
+<<<<<<< HEAD
 	protected $modelName = 'App\Models\TicketModel';
+=======
+	protected $modelName = 'App\Models\ticketModel';
+>>>>>>> 47bf9b6a37a55d55cf5d5cdc0f4d94f41137a115
 	protected $format = 'json';
 
 
@@ -182,7 +186,11 @@ class Ticket extends BaseController
 			'account_id' => $account_id,			
 		];
 
+<<<<<<< HEAD
 		$ticket = new TicketModel();
+=======
+		$ticket = new ticketModel();
+>>>>>>> 47bf9b6a37a55d55cf5d5cdc0f4d94f41137a115
 		$result = $ticket->getList($data);
 		
 		$response['status'] = 'SUCCESS';

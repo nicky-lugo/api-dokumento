@@ -308,7 +308,7 @@ class User extends BaseController
 			if($result != null){
 				$result['status'] = 'SUCCESS';
 				$result['msg'] = "Account successfully registered.";
-				return $this->respondCreated($result);
+				// return $this->respondCreated($result);
 			}
 			else{
 				return $this->failResourceExists('Account already exist.');

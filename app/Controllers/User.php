@@ -293,10 +293,10 @@ class User extends BaseController
 		// check cs_account if exist
 		// if cs_account not exist add new send cs_account_id			
 				$data = [
-				'name' 			=> $this->request->getVar('UserName'),
-				'owner_name' => $this->request->getVar('MobilePhoneNumber'),
-				'email_address' 		=> $this->request->getVar('EmailAddress'),
-				'address' 	=> $this->request->getVar('EmailAddress'),				
+				'name' 			=> $this->request->getVar('name'),
+				'owner_name' => $this->request->getVar('owner_name'),
+				'email_address' 		=> $this->request->getVar('email_address'),
+				'address' 	=> $this->request->getVar('address'),				
 				];
 				$AccountModel = new AccountModel();
 			$result = $UserModel->createData($data);

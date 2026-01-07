@@ -299,6 +299,11 @@ class User extends BaseController
 				'ticket_email_address' 		=> $this->request->getVar('ticket_email_address'),				
 				'product' 	=> $this->request->getVar('product'),												
 				'address' 	=> $this->request->getVar('address'),				
+				'status' 	=> 1,				
+				'external_id' 	=> 1,				
+				'is_deleted' 	=> 0,				
+				
+				
 				
 				];
 				$AccountModel = new AccountModel();

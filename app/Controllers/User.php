@@ -291,7 +291,7 @@ class User extends BaseController
 			return $this->fail('Only post request is allowed');
 		$AccountModel = new AccountModel();
 		// check cs_account if exist cs_id = external_id
-			$accountData = $AccountModel->Account_GetDataExternalID($this->request->getVar('external_id'));
+			$accountData = $AccountModel->getDataExternalID($this->request->getVar('external_id'));
 			
 		if(!isset($accountData)){	
 		// if cs_account not exist add new send cs_account_id			

@@ -293,18 +293,15 @@ class User extends BaseController
 		// check cs_account if exist
 		// if cs_account not exist add new send cs_account_id			
 				$data = [
-				'name' 			=> $this->request->getVar('name'),
-				'owner_name' => $this->request->getVar('owner_name'),
-				'email_address' 		=> $this->request->getVar('email_address'),
-				'ticket_email_address' 		=> $this->request->getVar('ticket_email_address'),				
-				'product' 	=> $this->request->getVar('product'),												
-				'address' 	=> $this->request->getVar('address'),				
-				'status' 	=> 1,				
-				'external_id' 	=> 1,				
-				'is_deleted' 	=> 0,				
-				
-				
-				
+					'name' 			=> $this->request->getVar('name'),
+					'owner_name' => $this->request->getVar('owner_name'),
+					'email_address' 		=> $this->request->getVar('email_address'),
+					'ticket_email_address' 		=> $this->request->getVar('ticket_email_address'),				
+					'product' 	=> $this->request->getVar('product'),												
+					'address' 	=> $this->request->getVar('address'),				
+					'status' 	=> 1,				
+					'external_id' 	=> 1,				
+					'is_deleted' 	=> 0,																
 				];
 				$AccountModel = new AccountModel();
 			$result = $AccountModel->createData($data);
@@ -320,6 +317,33 @@ class User extends BaseController
 		
 		// check user_account if exist
 		// if user_account not exist add new send user_id			
+		echo $result[0]->id."nicky";
+		exit;
+			$model = new UserModel();
+			$data = [
+			'UserName' 			=> $result[0]->id,
+			'phone' 			=> '',
+			'email' 			=> $this->request->getVar('email_address'),
+			'IsEmailVerified' 	=> 0,			
+			'AppStoreUserId' 	=> '',
+			'DisplayName' 		=> $this->request->getVar('name'),
+			'PhotoUrl' 			=> '',
+			'ProviderId' 		=> '',
+			'Password' 			=> 'NoPassword',
+			'scope' 			=> $this->request->getVar('scope'),
+			// 'ExternalId'		=> strtoupper(md5(strtotime(date('Y-m-d H:i:s')).'ezGov2k20'))
+			];
+
+			$UserModel = new UserModel();
+			$result = $UserModel->existing($data);
+			if($result != null){
+				$result['status'] = 'SUCCESS';
+				$result['msg'] = "Account successfully registered.";
+				return $this->respondCreated($result);
+			}
+			else{
+				return $this->failResourceExists('Account already exist.');
+			}
 		// else get user_id
 		
 		

@@ -25,14 +25,6 @@ class AccountModel extends Model
   ];
     
   
-//   public function getData($data)
-//   {
-// 	  $data = json_encode($data);
-// 	  $query =  $this->db->query("call Account_GetData('{$data}')");
-// 	  return $query->getRow();
-  
-//  }
-
 
 public function getDataExternalID($accountId){	
 	$id['id'] = $accountId;

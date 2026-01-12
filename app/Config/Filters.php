@@ -46,6 +46,7 @@ class Filters extends BaseConfig
 										'category/*',
 										'division',
 										'division/*',
+										'user/*new_account/',
 									  ]]
 	];
 }

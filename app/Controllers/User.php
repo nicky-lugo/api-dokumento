@@ -307,9 +307,7 @@ class User extends BaseController
 					'address' 	=> $this->request->getVar('address'),				
 					'status' 	=> 1,				
 					'external_id' 	=> $this->request->getVar('external_id'),									
-					'is_deleted' 	=> 0,											
-					
-					
+					'is_deleted' 	=> 0,																					
 				];
 				
 			$result = $AccountModel->createData($data);
@@ -322,10 +320,7 @@ class User extends BaseController
 			else{
 				return $this->failResourceExists('Account already exist.');
 			}
-		}	
-		// else get cs_account id
-		
-		// check user_account if exist
+		}							
 		// if user_account not exist add new send user_id			
 		
 			$model = new UserModel();
@@ -356,43 +351,7 @@ class User extends BaseController
 			else{
 				return $this->failResourceExists('Account already exist.');
 			}
-		// else get user_id
 		
-		
-		// $password = password_hash($this->request->getVar('Password'), PASSWORD_BCRYPT);
-		// $password = $this->request->getVar('Password');
-		// echo "Pass";
-		// if(! $this->validate($rules)){
-			// return $this->fail($this->validator->getErrors());
-
-		// }else{
-			// $model = new UserModel();
-			// $data = [
-			// 'UserName' 			=> $this->request->getVar('UserName'),
-			// 'phone' => $this->request->getVar('MobilePhoneNumber'),
-			// 'email' 		=> $this->request->getVar('EmailAddress'),
-			// 'IsEmailVerified' 	=> $this->request->getVar('EmailAddress'),
-			
-			// 'AppStoreUserId' 	=> $this->request->getVar('AppStoreUserId'),
-			// 'DisplayName' 		=> $this->request->getVar('DisplayName'),
-			// 'PhotoUrl' 			=> $this->request->getVar('PhotoUrl'),
-			// 'ProviderId' 		=> $this->request->getVar('ProviderId'),
-			// 'Password' 			=> $password,
-			// 'scope' 			=> $this->request->getVar('scope'),
-			// ];
-
-			// $UserModel = new UserModel();
-			// $result = $UserModel->existing($data);
-			// if($result != null){
-				// $result['status'] = 'SUCCESS';
-				// $result['msg'] = "Account successfully registered.";
-				// return $this->respondCreated($result);
-			// }
-			// else{
-				// return $this->failResourceExists('Account already exist.');
-			// }
-			
-		// }
 	}
 	
 }

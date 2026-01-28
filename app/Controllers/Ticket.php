@@ -7,11 +7,7 @@ use App\Models\LogModel;
 
 class Ticket extends BaseController
 {
-<<<<<<< HEAD
 	protected $modelName = 'App\Models\TicketModel';
-=======
-	protected $modelName = 'App\Models\ticketModel';
->>>>>>> 47bf9b6a37a55d55cf5d5cdc0f4d94f41137a115
 	protected $format = 'json';
 
 

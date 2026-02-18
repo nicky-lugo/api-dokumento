@@ -46,7 +46,8 @@ class TicketModel extends Model{
 	$sort = $data['sort'];
 	$sortorder = $data['sortorder'];
 	 $user_id = $data['user_id'];
-   
+
+
 	$query =  $this->db->query('call Ticket_GetList("'.$search.'","'.$sort.'","'.$sortorder.'","'.$user_id.'")');
 	return $query->getResultArray();       
   }

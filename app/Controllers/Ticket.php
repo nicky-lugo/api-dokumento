@@ -179,14 +179,11 @@ class Ticket extends BaseController
 			'name' => $name,
 			'sort' => $sort,
 			'sortorder' => $sortorder,
-			'account_id' => $account_id,			
+			'account_id' => $account_id,
+			'user_id'=> $userID
 		];
 
-<<<<<<< HEAD
 		$ticket = new TicketModel();
-=======
-		$ticket = new ticketModel();
->>>>>>> 47bf9b6a37a55d55cf5d5cdc0f4d94f41137a115
 		$result = $ticket->getList($data);
 		
 		$response['status'] = 'SUCCESS';

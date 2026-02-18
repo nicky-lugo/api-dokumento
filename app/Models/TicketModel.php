@@ -44,9 +44,10 @@ class TicketModel extends Model{
   {
 	$search = $data['name'];
 	$sort = $data['sort'];
-    $sortorder = $data['sortorder'];
+	$sortorder = $data['sortorder'];
+	 $user_id = $data['user_id'];
    
-	$query =  $this->db->query('call Ticket_GetList("'.$search.'","'.$sort.'","'.$sortorder.'")');
+	$query =  $this->db->query('call Ticket_GetList("'.$search.'","'.$sort.'","'.$sortorder.'","'.$user_id.'")');
 	return $query->getResultArray();       
   }
   public function getDetailList($data)

@@ -159,6 +159,7 @@ class Ticket extends BaseController
 		$sortorder = $this->request->getVar('sortorder') ?: NULL;
 		$account_id = $this->request->getVar('account_id') ?: NULL;
 		$userID = $this->request->getVar('UserID');
+		// $userID = 187;
 		if(ENABLE_LOGS){
 			try{
 				$logModel = new LogModel();
@@ -928,5 +929,84 @@ public function getAgentList(){
 		return $this->respond($response);
 		
 	}
+	public function getOpenTicketCount(){
+		$account_id = $this->request->getVar('account_id')?: NULL;
+		if(ENABLE_LOGS){
+			try{
+				$logModel = new LogModel();
+				$logData = [
+					'UserID' => $userID,
+					'LogAction' => 'View',
+					'UserType' => 'Web',
+					'LogModule' => __CLASS__.'\\'. __FUNCTION__,
+					'Data' => json_encode($this->request->getVar()),
+					];
+				$logModel->create($logData);
+			}
+			catch (\Throwable  $e) {
+			   //print_r($e);
+		   }
+		}	
+		$data = [
+			'account_id' => $account_id,			
+		];
+
+		$ticket = new ticketModel();
+		
+		$result = $ticket->getOpenTicketCount($data);
+		
+		$response['status'] = 'SUCCESS';
+		$response['message'] = 'Record(s) retrieved - '.count($result);
+		$response['record_count'] = count($result);
+		$response['result']  = [];
+
+		if($result != null){
+			$response['msg'] = "Notice data successfully retrieved.";
+			$response['status'] = 'SUCCESS';
+			$response['result']  = $result;
+		}
+		return $this->respond($response);
+		
+	}
+	public function getResolvedTicketCount(){
+		$account_id = $this->request->getVar('account_id')?: NULL;
+		if(ENABLE_LOGS){
+			try{
+				$logModel = new LogModel();
+				$logData = [
+					'UserID' => $userID,
+					'LogAction' => 'View',
+					'UserType' => 'Web',
+					'LogModule' => __CLASS__.'\\'. __FUNCTION__,
+					'Data' => json_encode($this->request->getVar()),
+					];
+				$logModel->create($logData);
+			}
+			catch (\Throwable  $e) {
+			   //print_r($e);
+		   }
+		}	
+		$data = [
+			'account_id' => $account_id,			
+		];
+
+		$ticket = new ticketModel();
+		
+		$result = $ticket->getResolvedTicketCount($data);
+		
+		$response['status'] = 'SUCCESS';
+		$response['message'] = 'Record(s) retrieved - '.count($result);
+		$response['record_count'] = count($result);
+		$response['result']  = [];
+
+		if($result != null){
+			$response['msg'] = "Notice data successfully retrieved.";
+			$response['status'] = 'SUCCESS';
+			$response['result']  = $result;
+		}
+		return $this->respond($response);
+		
+	}
+	
 }
 

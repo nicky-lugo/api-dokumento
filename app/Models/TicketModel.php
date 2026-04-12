@@ -201,4 +201,19 @@ class TicketModel extends Model{
 	  return $query->getRow();
   
  } 
+ public function getOpenTicketCount($data)
+  {
+	$data = json_encode($data);
+	//echo"call RefType_GetList('{$data}')";
+	$query =  $this->db->query("call getOpenTicketCount('{$data}')");
+	return $query->getResultArray();       
+  }
+  public function getResolvedTicketCount($data)
+  {
+	$data = json_encode($data);
+	//echo"call RefType_GetList('{$data}')";
+	$query =  $this->db->query("call getResolvedTicketCount('{$data}')");
+	return $query->getResultArray();       
+  }
+  
 }

@@ -10,7 +10,9 @@ class UserModel extends Model{
                               'Password',
                               'phone',
                               'email',
-                              'account_id'
+                              'account_id',
+							  'firstname',
+							  'lastname'
                                ];
 
   protected $beforeInsert = ['beforeInsert'];
@@ -68,10 +70,10 @@ class UserModel extends Model{
   }
   
   public function existing(array $data){
+	  
     $uid = $data['ExternalId'];
     
-
-    if($uid !=null){
+	if($uid !=null){
       $user = $this->where(array("ExternalId"=>$uid))
       ->findAll();
       //echo $this->db->getLastQuery(); 
@@ -90,7 +92,8 @@ class UserModel extends Model{
       if($data['Password'] == null){
         $data['Password'] = $uid;
       }
-      $data['ExternalId'] = strtoupper(md5(strtotime(date('Y-m-d H:i:s')).'ezGov2k20'));
+      // $data['ExternalId'] = strtoupper(md5(strtotime(date('Y-m-d H:i:s')).'ezGov2k20'));
+	  $data['ExternalId'] = $data['ExternalId'];
 
       $user_id = $this->insert($data);
       //unset($data['Password']);

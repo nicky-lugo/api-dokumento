@@ -289,57 +289,68 @@ class User extends BaseController
 		helper('form');
 		$data = [];
 		$rules = [];
-
 		if($this->request->getMethod() != 'post')
 			return $this->fail('Only post request is allowed');
 		
 		$AccountModel = new AccountModel();
 		// check cs_account if exist cs_id = external_id
-			$accountData = $AccountModel->getDataExternalID($this->request->getVar('external_id'));
-			
+			$accountData = $AccountModel->getDataExternalID($this->request->getVar('cs_account_id'));
+			// $accountData = $AccountModel->getDataExternalID($this->request->getVar('account_id'));
+		// echo "<pre>";	
+		// print_r($accountData->id);
+		
+		
 		if(!isset($accountData)){
 			
 		// if cs_account not exist add new send cs_account_id			
 		
 				$data = [
-					'name' 			=> $this->request->getVar('name'),
-					'owner_name' => $this->request->getVar('owner_name'),
-					'email_address' 		=> $this->request->getVar('email_address'),
+					'name' 			=> $this->request->getVar('cs_name'),
+					'owner_name' => $this->request->getVar('cs_owner_name'),
+					'email_address' 		=> $this->request->getVar('cs_email_address'),
 					'ticket_email_address' 		=> $this->request->getVar('ticket_email_address'),				
 					'product' 	=> $this->request->getVar('product'),												
-					'address' 	=> $this->request->getVar('address'),				
+					'address' 	=> $this->request->getVar('cs_address'),				
 					'status' 	=> 1,				
-					'external_id' 	=> $this->request->getVar('external_id'),									
+					'external_id' 	=> $this->request->getVar('cs_account_id'),									
+					// 'external_id' 	=> $this->request->getVar('account_id'),									
+					
 					'is_deleted' 	=> 0,																					
 				];
 				
-			$result = $AccountModel->createData($data);
+			$result = $AccountModel->createData($data);						
 			if($result != null){
 				$result['status'] = 'SUCCESS';
 				$result['msg'] = "Account successfully registered.";
 				// return $this->respondCreated($result);
 				// $newID = $result[0]['id'];
+				$cs_account_id = $result[0]['id'];
 			}
 			else{
 				return $this->failResourceExists('Account already exist.');
 			}
-		}							
+		} else {
+			$cs_account_id = $accountData->id;
+		}	
+		// $local_cs_account_id = $this->request->getVar('cs_account_id')			
 		// if user_account not exist add new send user_id			
 		
 			$model = new UserModel();
 			$data = [
-			'UserName' 			=> $this->request->getVar('external_id'),
+			'UserName' 			=> $this->request->getVar('username'),
 			'phone' 			=> '',
-			'email' 			=> $this->request->getVar('email_address'),
+			'email' 			=> $this->request->getVar('username'),
 			'IsEmailVerified' 	=> 0,			
 			'AppStoreUserId' 	=> '',
-			'DisplayName' 		=> $this->request->getVar('name'),
+			'DisplayName' 		=> $this->request->getVar('firstname').' '.$this->request->getVar('lastname'),
+			'firstname' 		=> $this->request->getVar('firstname'),
+			'lastname' 			=> $this->request->getVar('lastname'),
 			'PhotoUrl' 			=> '',
 			'ProviderId' 		=> '',
 			'Password' 			=> 'NoPassword',
-			'scope' 			=> $this->request->getVar('scope'),
+			'scope' 			=> '',
 			'ExternalId' 			=> $this->request->getVar('user_id'),
-			'account_id' 			=> $this->request->getVar('external_id'),
+			'account_id' 			=> $cs_account_id,
 			
 			// 'ExternalId'		=> strtoupper(md5(strtotime(date('Y-m-d H:i:s')).'ezGov2k20'))
 			];

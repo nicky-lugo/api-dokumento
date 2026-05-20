@@ -1007,6 +1007,28 @@ public function getAgentList(){
 		return $this->respond($response);
 		
 	}
+	public function remote_upload(){
+        if (isset($_FILES['file'])) {
+            $uploadDir = 'uploads/';
+
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            $fileName = basename($_FILES['file']['name']);
+            $targetPath = $uploadDir . $fileName;
+
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
+                echo "File received successfully";
+            } else {
+                echo "Upload failed";
+            }
+
+        } else {
+            echo "No file uploaded";
+        }
+
+    }
 	
 }
 

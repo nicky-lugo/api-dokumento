@@ -367,6 +367,21 @@ class User extends BaseController
 			}
 		
 	}
+	public function getUserAgent(){
+		
+
+		$AgentModel = new UserModel();
+		$result = $AgentModel->getUserAgent();
+		
+		if($result != null){
+			//$result['msg'] = "Existing record found.";
+			return $this->respond($result);
+		}
+		else{
+			return $this->failNotFound('User record not found.');
+		}
+
+	}	
 	
 }
 

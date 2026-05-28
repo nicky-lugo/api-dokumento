@@ -147,4 +147,11 @@ class UserModel extends Model{
     return $query->getResultArray();
 	
   }
+  public function getUserAgent(){	
+	
+	$query     =  $this->db->query('call User_GetAgent()');
+	// echo $this->db->getLastQuery();    
+    return $query->getResultArray();
+	
+  }
 }
